@@ -1,0 +1,27 @@
+{
+  "name": "Comment Plugin",
+  "version": "1.0.2",
+  "manifest_version": 3,
+  "description": "Comment on selected text and send tagged notifications.",
+  "permissions": ["storage", "tabs", "activeTab", "scripting"],
+  "host_permissions": ["http://127.0.0.1:8000/*"],
+  "action": {
+    "default_title": "Comment Plugin"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["plugin.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["login.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

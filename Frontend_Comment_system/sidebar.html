@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comments Sidebar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen bg-gray-50 flex">
+  <div class="w-96 bg-white border-r shadow-lg p-4 flex flex-col">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Comments</h2>
+    <div id="commentsList" class="flex-1 overflow-y-auto space-y-4">
+      <!-- comments will be injected here -->
+    </div>
+    <div class="mt-4">
+      <form id="replyForm" class="space-y-2">
+        <textarea id="replyText" rows="2" placeholder="Write a reply..."
+          class="w-full p-2 border rounded-lg text-sm"></textarea>
+        <button type="submit"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition">
+          Reply
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="sidebar.js"></script>
+</body>
+</html>
