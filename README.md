@@ -72,7 +72,11 @@ cd Comment-Plugin/Backend_Comment_system
 
 ### 2. Set up the backend
 
-**Windows (PowerShell or Command Prompt)**
+**Windows, the quick way:** double-click `Backend_Comment_system\setup.bat` once (it creates
+the venv, installs dependencies, creates `.env` with a random `SECRET_KEY` and runs migrations),
+then double-click `run.bat` whenever you want to start the server. Skip to step 5.
+
+**Windows, manually (PowerShell or Command Prompt)**
 
 ```powershell
 py -m venv venv
