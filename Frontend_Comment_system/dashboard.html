@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comment Plugin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a32;
+      --muted: #a8b0c0;
+      --text: #e6ecff;
+      --accent: #5b8cff;
+      --accent-hover: #4a78e6;
+      --danger: #ff6b6b;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: radial-gradient(1200px 800px at 10% -10%, #1a2550 0%, #0b1020 60%) no-repeat, var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+    }
+    .container {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      overflow: hidden;
+      animation: rise 320ms ease-out;
+    }
+    @keyframes rise { from { transform: translateY(8px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+    .card-header {
+      padding: 22px 22px 8px;
+    }
+    .title {
+      margin: 0 0 6px;
+      font-size: 22px;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .card-body {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0e1530;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(91,140,255,0.15);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+      align-items: center;
+    }
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 100ms ease, background 140ms ease, box-shadow 140ms ease;
+      box-shadow: 0 4px 16px rgba(91,140,255,0.35);
+      width: 100%;
+    }
+    button:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .message {
+      min-height: 22px;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .msg-error { color: var(--danger); }
+    .msg-success { color: #7cffa1; }
+    .footer {
+      padding: 14px 22px 20px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; display: inline-block; }
+    .form-link {
+        color: var(--accent);
+        font-size: 14px;
+        text-decoration: none;
+        margin-top: 10px;
+        display: block;
+        text-align: center;
+    }
+    .hidden { display: none; }
+  </style>
+  <style>
+    .row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+    .row .label { color: var(--muted); }
+    .dot.offline { background: var(--danger); }
+    .dot.checking { background: var(--muted); }
+    .hint { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="title">Comment Plugin</h1>
+        <p class="subtitle" id="signed-in-as">Signed in.</p>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="label">Username</span><span id="username">&ndash;</span></div>
+        <div class="row"><span class="label">Email</span><span id="email">&ndash;</span></div>
+        <p class="hint">Select text on any page and click the comment bubble to add a comment.</p>
+        <button type="button" id="logout-btn">Log out</button>
+        <div id="message" class="message"></div>
+      </div>
+      <div class="footer">
+        <span class="dot checking" id="status-dot"></span>
+        <span id="status-text">Checking backend at <code>http://127.0.0.1:8000/api/</code>&hellip;</span>
+      </div>
+    </div>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
