@@ -1,0 +1,13 @@
+# Python virtual environments created at the repo root
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

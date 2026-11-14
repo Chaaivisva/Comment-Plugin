@@ -1,6 +1,12 @@
 const API_BASE_URL = 'http://127.0.0.1:8000/api/';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const { authToken } = await chrome.storage.local.get(['authToken']);
+    if (authToken) {
+        window.location.replace('dashboard.html');
+        return;
+    }
+
     const form = document.getElementById('auth-form');
     const usernameInput = document.getElementById('username');
     const emailInput = document.getElementById('email');
@@ -34,16 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const data = await response.json();
                 if (data.token) {
-                    await chrome.storage.local.set({ authToken: data.token });
-                    messageEl.textContent = 'Login successful! You can now close this tab.';
+                    await chrome.storage.local.set({ authToken: data.token, username, email: data.email || '' });
+                    messageEl.textContent = 'Login successful!';
                     messageEl.className = 'msg-success';
-                    setTimeout(() => window.close(), 2000);
+                    setTimeout(() => window.location.replace('dashboard.html'), 800);
                 } else {
-                    messageEl.textContent = data.non_field_errors[0] || 'Login failed. Invalid credentials.';
+                    messageEl.textContent = (data.non_field_errors && data.non_field_errors[0]) || 'Login failed. Invalid credentials.';
                     messageEl.className = 'msg-error';
                 }
             } catch (error) {
-                messageEl.textContent = 'An error occurred during login. Please try again.';
+                messageEl.textContent = 'Could not reach the backend. Is the Django server running at http://127.0.0.1:8000?';
                 messageEl.className = 'msg-error';
                 console.error('Login error:', error);
             }
