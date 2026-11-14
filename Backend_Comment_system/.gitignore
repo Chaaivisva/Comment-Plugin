@@ -1,71 +1,44 @@
-# .gitignore file for a Django project
-
-This `.gitignore` file is a comprehensive list of common files and directories to exclude from version control in a Django project. It's designed to keep your repository clean of temporary files, security credentials, and environment-specific data.
-
------
-
-## Recommended `.gitignore` File
-
-```
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-*.so
-
 # Distribution / packaging
-.Python
 build/
-develop-eggs/
 dist/
-eggs/
 *.egg-info/
-.installed.cfg
-*.egg
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
+# Test / coverage reports
 .coverage
-.tox/
+.coverage.*
 .pytest_cache/
 htmlcov/
-.coverage.*
 
+# Environment / secrets
+.env
 
-.env
-# virtualenv
-.env
-.venv
+# Virtual environments (Linux/macOS and Windows layouts)
+.venv/
 venv/
 env/
-/bin/
-/include/
-/lib/
-/lib64/
-/share/
+/Scripts/
+/Include/
+/Lib/
+/pyvenv.cfg
 
-# Django-specific files
+# Django
 *.log
 *.pot
 *.mo
-*.prof
-
-# Django security & media files
 /media/
 /static/
 db.sqlite3
+db.sqlite3-journal
 /local_settings.py
 
-# Editor files
+# Editors / OS files
 .idea/
 .vscode/
 .DS_Store
-
-# Mac OS X folder attributes
-.Trashes
-```
+Thumbs.db
+desktop.ini
