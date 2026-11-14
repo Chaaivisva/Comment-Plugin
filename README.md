@@ -49,38 +49,93 @@ The extension UI runs inside a **Shadow DOM** to prevent CSS conflicts with host
 
 ## Getting Started
 
-### Clone the Repository
+### Prerequisites
+
+- **Python 3.10+** — on Windows, tick *"Add python.exe to PATH"* in the installer
+- **Git**
+- **Google Chrome** (or another Chromium browser such as Edge or Brave)
+
+### Repository layout
+
+```
+Comment-Plugin/
+├── Backend_Comment_system/    # Django backend (run the server from here)
+└── Frontend_Comment_system/   # Chrome extension (load this folder in Chrome)
+```
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Chaaivisva/Comment-Plugin.git
-cd Comment-Plugin
+cd Comment-Plugin/Backend_Comment_system
+```
+
+### 2. Set up the backend
+
+**Windows (PowerShell or Command Prompt)**
+
+```powershell
+py -m venv venv
+venv\Scripts\python -m pip install -r requirements.txt
+copy .env.example .env
+```
+
+> If `py` is not found, use `python` instead.
+> If you prefer activating the venv in PowerShell (`venv\Scripts\Activate.ps1`) and get a
+> *"running scripts is disabled"* error, run
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or just use the
+> `venv\Scripts\python` commands shown here, which need no activation.
+
+**Linux / macOS**
+
+```bash
 python3 -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-
-SECRET_KEY='your_strong_secret_key_here'
-DEBUG=True
-ALLOWED_HOSTS=127.0.0.1,localhost
-DATABASE_URL=sqlite:///db.sqlite3
-
-python manage.py makemigrations
-python manage.py migrate
-
-python manage.py createsuperuser
-python manage.py runserver
+venv/bin/python -m pip install -r requirements.txt
+cp .env.example .env
 ```
 
-### **Set Up the Chrome Extension**
+### 3. Configure `.env`
 
-```markdown
-## Set Up the Chrome Extension
+Open `Backend_Comment_system/.env` in any editor and set `SECRET_KEY` to a long random string.
+You can generate one with:
 
-1. Open **Google Chrome**  
-2. Navigate to: `chrome://extensions`  
-3. Enable **Developer Mode** (top-right toggle)  
-4. Click **Load unpacked** → select the `plugin/` folder  
-5. The extension will now appear in your browser
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
+
+The email settings are optional. If you leave them empty, notification emails are printed
+to the server console instead of being sent.
+
+### 4. Create the database and run the server
+
+**Windows**
+
+```powershell
+venv\Scripts\python manage.py migrate
+venv\Scripts\python manage.py createsuperuser
+venv\Scripts\python manage.py runserver
+```
+
+**Linux / macOS**
+
+```bash
+venv/bin/python manage.py migrate
+venv/bin/python manage.py createsuperuser
+venv/bin/python manage.py runserver
+```
+
+The API is now available at `http://127.0.0.1:8000/api/`. Keep this terminal open while you
+use the extension. The extension expects the server on exactly `127.0.0.1:8000`.
+
+### 5. Load the Chrome extension
+
+1. Open **Google Chrome**
+2. Go to `chrome://extensions`
+3. Turn on **Developer mode** (top-right toggle)
+4. Click **Load unpacked** and select the **`Frontend_Comment_system`** folder
+   (the one containing `manifest.json`, not the repository root)
+5. The extension now appears in your toolbar. Click it to register or log in.
+
 ## Usage
 
 1. Open any webpage  
