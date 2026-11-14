@@ -12,11 +12,8 @@ function openExtensionPageTab(page = 'login.html') {
 
 chrome.action.onClicked.addListener(async (tab) => {
   try {
-    // If authToken exists, open dashboard (or do nothing). Otherwise open login page.
-    chrome.storage.local.get(['authToken'], ({ authToken }) => {
-      if (!authToken) openExtensionPageTab('login.html');
-      else openExtensionPageTab('dashboard.html'); // optional
-    });
+    // There is no separate dashboard page yet, so always open the login page.
+    openExtensionPageTab('login.html');
   } catch (err) {
     console.error('action.onClicked error', err);
     openExtensionPageTab('login.html');
@@ -30,10 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'OPEN_LOGIN') {
       // Always open the login page in a new tab (preferred).
-      chrome.storage.local.get(['authToken'], ({ authToken }) => {
-        if (authToken) openExtensionPageTab('dashboard.html');
-        else openExtensionPageTab('login.html');
-      });
+      openExtensionPageTab('login.html');
       sendResponse({ ok: true });
       return true;
     }
